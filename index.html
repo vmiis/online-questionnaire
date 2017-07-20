@@ -12,7 +12,7 @@ $(document).ready(function(){
 	//--------------------------------------------------------
 	var start=function(){
 		$vm.reload='';
-		if(window.location.toString().indexOf('reload=1')!=-1){
+		if(window.location.toString().indexOf('_d=3')!=-1){
 			$vm.reload=new Date().getTime().toString();
 		}
 		var url=$vm.hosting_path+'/version.html?_='+new Date().getTime().toString();
@@ -102,6 +102,7 @@ $(document).ready(function(){
 		text=text.replace(/__PARTS__\//g,$vm.parts_path+'/');
 		text=text.replace(/__IMAGE__\//g,$vm.image_path+'/');
 		if(window.location.hostname=='127.0.0.1' || window.location.hostname=='localhost'){
+			//use local version
 			text=text.replace(/https:\/\/vmiis.github.io/g,window.location.protocol+'//'+window.location.host+'/vmiis');
 			text=text.replace(/https:\/\/wappsystem.github.io/g,window.location.protocol+'//'+window.location.host+'/wappsystem');
 			text=text.replace(/https:\/\/woolcock-imr.github.io/g,window.location.protocol+'//'+window.location.host+'/woolcock-imr');
@@ -109,13 +110,30 @@ $(document).ready(function(){
 			text=text.replace(/https:\/\/cbs.wappsystem.com\/dev\/github/g,window.location.protocol+'//'+window.location.host);
 			text=text.replace(/https:\/\/cbs.wappsystem.com\/pro\/github/g,window.location.protocol+'//'+window.location.host);
 			text=text.replace(/https:\/\/image.datalinkedin.com/g,window.location.protocol+'//'+window.location.host+'/vmiis/images');
+			//do not use local system files
+			text=text.replace(/http:\/\/127.0.0.1:8000\/vmiis\/api/g,'https://vmiis.github.io/api');
+			text=text.replace(/http:\/\/127.0.0.1:8000\/vmiis\/framework/g,'https://vmiis.github.io/framework');
+			text=text.replace(/http:\/\/127.0.0.1:8000\/vmiis\/parts/g,'https://vmiis.github.io/parts');
+			text=text.replace(/http:\/\/127.0.0.1:8000\/vmiis\/modules/g,'https://vmiis.github.io/modules');
 		}
-		/*
-		else{
-			text=text.replace(/https:\/\/vmiis.github.io\/business-portal/g,'https://www.datalinkedin.com');
-			text=text.replace(/https:\/\/wappsystem.github.io\/business-portal/g,'https://www.vmiis.com');
+		if(window.location.toString().indexOf('_d=1')!=-1){
+			//use local system files
+			text=text.replace(/https:\/\/vmiis.github.io\/api/g,'http://127.0.0.1:8000/vmiis/api');
+			text=text.replace(/https:\/\/vmiis.github.io\/framework/g,'http://127.0.0.1:8000/vmiis/framework');
+			text=text.replace(/https:\/\/vmiis.github.io\/parts/g,'http://127.0.0.1:8000/vmiis/parts');
+			text=text.replace(/https:\/\/vmiis.github.io\/modules/g,'http://127.0.0.1:8000/vmiis/modules');
 		}
-		*/
+		if(window.location.toString().indexOf('_d=2')!=-1){
+			//use latest unstable version (master branch, not gh-pages branch)
+			text=text.replace(/https:\/\/vmiis.github.io\/api/g,'https://raw.githubusercontent.com/vmiis/api/master');
+			text=text.replace(/https:\/\/vmiis.github.io\/framework/g,'https://raw.githubusercontent.com/vmiis/framework/master');
+			text=text.replace(/https:\/\/vmiis.github.io\/parts/g,'https://raw.githubusercontent.com/vmiis/parts/master');
+			text=text.replace(/https:\/\/vmiis.github.io\/modules/g,'https://raw.githubusercontent.com/vmiis/modules/master');
+			text=text.replace(/http:\/\/127.0.0.1:8000\/vmiis\/api/g,'https://raw.githubusercontent.com/vmiis/api/master');
+			text=text.replace(/http:\/\/127.0.0.1:8000\/vmiis\/framework/g,'https://raw.githubusercontent.com/vmiis/framework/master');
+			text=text.replace(/http:\/\/127.0.0.1:8000\/vmiis\/parts/g,'https://raw.githubusercontent.com/vmiis/parts/master');
+			text=text.replace(/http:\/\/127.0.0.1:8000\/vmiis\/modules/g,'https://raw.githubusercontent.com/vmiis/modules/master');
+		}
 		return text;
 	}
 	//--------------------------------------------------------
